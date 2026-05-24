@@ -28,3 +28,19 @@
     border: 1px solid rgba(255,255,255,0.15);
     margin-bottom: 20px;
 }
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b, #0b1220);
+    color: white;
+}
+
+h1, h2, h3 {
+    color: #ffffff;
+}
+
+div.stButton > button {
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    padding: 0.5rem 1rem;
+}
