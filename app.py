@@ -1,22 +1,22 @@
 import streamlit as st
 from PIL import Image
 import streamlit.components.v1 as components
+
+# Load CSS
 with open("styles.css") as f:
     st.markdown(
         f"<style>{f.read()}</style>",
         unsafe_allow_html=True
     )
 
+# Page Config
 st.set_page_config(
     page_title="TwinAI 3D",
     page_icon="🧠",
     layout="wide"
 )
 
-# -----------------------
-# SIDEBAR
-# -----------------------
-
+# Sidebar
 st.sidebar.title("🧠 TwinAI")
 
 page = st.sidebar.radio(
@@ -30,9 +30,9 @@ page = st.sidebar.radio(
     ]
 )
 
-# -----------------------
+# =========================
 # HOME
-# -----------------------
+# =========================
 
 if page == "Home":
 
@@ -78,9 +78,9 @@ if page == "Home":
             "+18%"
         )
 
-# -----------------------
+# =========================
 # MY TWIN
-# -----------------------
+# =========================
 
 elif page == "My Twin":
 
@@ -88,15 +88,40 @@ elif page == "My Twin":
 
     name = st.text_input("Name")
 
-    age = st.slider("Age", 13, 30, 17)
+    age = st.slider(
+        "Age",
+        13,
+        30,
+        17
+    )
 
-    study = st.slider("Study Hours", 0, 12, 5)
+    study = st.slider(
+        "Study Hours",
+        0,
+        12,
+        5
+    )
 
-    sleep = st.slider("Sleep Hours", 0, 12, 8)
+    sleep = st.slider(
+        "Sleep Hours",
+        0,
+        12,
+        8
+    )
 
-    exercise = st.slider("Exercise Hours", 0, 5, 1)
+    exercise = st.slider(
+        "Exercise Hours",
+        0,
+        5,
+        1
+    )
 
-    screen = st.slider("Screen Time", 0, 15, 5)
+    screen = st.slider(
+        "Screen Time",
+        0,
+        15,
+        5
+    )
 
     if st.button("Generate Twin"):
 
@@ -107,20 +132,69 @@ elif page == "My Twin":
             - screen
         )
 
-        score = max(0, min(100, score))
+        score = max(
+            0,
+            min(100, score)
+        )
 
-        st.subheader(f"{name}'s Twin")
+        st.subheader(
+            f"{name}'s Twin"
+        )
 
-        st.progress(score / 100)
+        st.progress(
+            score / 100
+        )
 
         st.metric(
             "Twin Score",
             f"{score}/100"
         )
 
-# -----------------------
+        if score >= 80:
+            st.success(
+                "Elite Potential 🚀"
+            )
+
+        elif score >= 60:
+            st.info(
+                "Strong Growth 📈"
+            )
+
+        else:
+            st.warning(
+                "Needs Improvement ⚠️"
+            )
+
+# =========================
+# 3D TWIN
+# =========================
+
+elif page == "3D Twin":
+
+    st.header("Your Digital Twin")
+
+    components.html(
+        """
+        <iframe
+        title="Angelica"
+        frameborder="0"
+        allowfullscreen
+        mozallowfullscreen="true"
+        webkitallowfullscreen="true"
+        allow="autoplay; fullscreen; xr-spatial-tracking"
+        width="100%"
+        height="650"
+        src="https://sketchfab.com/models/27f75fa94c384000bb6a79a3000f8e80/embed?autostart=1&ui_infos=0&ui_controls=1">
+        </iframe>
+        """,
+        height=700
+    )
+
+    st.success("Twin Connected")
+
+# =========================
 # FUTURE SIMULATOR
-# -----------------------
+# =========================
 
 elif page == "Future Simulator":
 
@@ -154,40 +228,26 @@ elif page == "Future Simulator":
         future / 100
     )
 
-# -----------------------
+# =========================
 # ACHIEVEMENTS
-# -----------------------
+# =========================
 
 elif page == "Achievements":
 
     st.header("Achievements")
 
-    st.success("🏆 Focus Master")
-
-    st.success("🔥 Study Beast")
-
-    st.success("😴 Sleep Champion")
-
-    st.success("🚀 Elite Twin")
-    elif page == "3D Twin":
-
-    st.header("Your Digital Twin")
-
-    components.html(
-        """
-        <iframe
-        title="Angelica"
-        frameborder="0"
-        allowfullscreen
-        mozallowfullscreen="true"
-        webkitallowfullscreen="true"
-        allow="autoplay; fullscreen; xr-spatial-tracking"
-        width="100%"
-        height="650"
-        src="https://sketchfab.com/models/27f75fa94c384000bb6a79a3000f8e80/embed?autostart=1&ui_infos=0&ui_controls=1">
-        </iframe>
-        """,
-        height=700
+    st.success(
+        "🏆 Focus Master"
     )
 
-    st.success("Twin Connected")
+    st.success(
+        "🔥 Study Beast"
+    )
+
+    st.success(
+        "😴 Sleep Champion"
+    )
+
+    st.success(
+        "🚀 Elite Twin"
+    )
