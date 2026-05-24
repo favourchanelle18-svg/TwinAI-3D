@@ -171,26 +171,61 @@ elif page == "My Twin":
 
 elif page == "3D Twin":
 
-    st.header("Your Digital Twin")
+    st.title("🧠 Your Digital Twin")
 
-    components.html(
-        """
-        <iframe
-        title="Angelica"
-        frameborder="0"
-        allowfullscreen
-        mozallowfullscreen="true"
-        webkitallowfullscreen="true"
-        allow="autoplay; fullscreen; xr-spatial-tracking"
-        width="100%"
-        height="650"
-        src="https://sketchfab.com/models/27f75fa94c384000bb6a79a3000f8e80/embed?autostart=1&ui_infos=0&ui_controls=1">
-        </iframe>
-        """,
-        height=700
-    )
+    left, right = st.columns([2, 1])
 
-    st.success("Twin Connected")
+    with left:
+
+        components.html(
+            """
+            <iframe
+            title="Angelica"
+            frameborder="0"
+            allowfullscreen
+            mozallowfullscreen="true"
+            webkitallowfullscreen="true"
+            allow="autoplay; fullscreen; xr-spatial-tracking"
+            width="100%"
+            height="650"
+            src="https://sketchfab.com/models/27f75fa94c384000bb6a79a3000f8e80/embed?autostart=1&ui_infos=0&ui_controls=1">
+            </iframe>
+            """,
+            height=700
+        )
+
+    with right:
+
+        st.metric(
+            "Level",
+            "12"
+        )
+
+        st.metric(
+            "XP",
+            "845"
+        )
+
+        st.metric(
+            "Focus",
+            "88%"
+        )
+
+        st.metric(
+            "Energy",
+            "91%"
+        )
+
+        st.metric(
+            "Discipline",
+            "84%"
+        )
+
+        st.progress(0.84)
+
+        st.success(
+            "Twin Status: High Growth"
+        )
 
 # =========================
 # FUTURE SIMULATOR
