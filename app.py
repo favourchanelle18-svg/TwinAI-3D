@@ -54,19 +54,24 @@ if page == "Home":
     st.image(hero, use_container_width=True)
 
     st.markdown("""
-    <div style='text-align:center; padding:20px'>
-        <h1 style='font-size:50px'>Meet Your Future Self</h1>
-        <p style='font-size:18px; color:gray'>
-        TwinAI simulates your digital future based on your daily habits.
-        </p>
+    <div class="hero-title">TWIN AI</div>
+    <div class="hero-subtitle">
+    A premium digital twin that evolves based on your habits, energy, and discipline.
     </div>
     """, unsafe_allow_html=True)
 
-    c1, c2, c3 = st.columns(3)
+    st.write("")
 
-    c1.metric("Active Twins", "12,548")
-    c2.metric("Predictions", "84,291")
-    c3.metric("Growth", "+18%")
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric("Active Twins", "12,548")
+
+    with col2:
+        st.metric("Predictions", "84,291")
+
+    with col3:
+        st.metric("Growth Rate", "+18%")
 
 # -----------------------
 # MY TWIN
