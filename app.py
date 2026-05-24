@@ -122,6 +122,11 @@ elif page == "My Twin":
         15,
         5
     )
+st.session_state["study"] = study
+st.session_state["sleep"] = sleep
+st.session_state["exercise"] = exercise
+st.session_state["screen"] = screen
+st.session_state["name"] = name
 
     if st.button("Generate Twin"):
 
@@ -170,62 +175,29 @@ elif page == "My Twin":
 # =========================
 
 elif page == "3D Twin":
+study = st.session_state.get("study", 5)
+sleep = st.session_state.get("sleep", 8)
+exercise = st.session_state.get("exercise", 1)
+screen = st.session_state.get("screen", 5)
 
-    st.title("🧠 Your Digital Twin")
+focus = min(100, study * 10 - screen * 2)
+energy = min(100, sleep * 12)
+discipline = min(100, study * 6 + exercise * 12)
 
-    left, right = st.columns([2, 1])
+st.metric(
+    "Focus",
+    f"{focus}%"
+)
 
-    with left:
+st.metric(
+    "Energy",
+    f"{energy}%"
+)
 
-        components.html(
-            """
-            <iframe
-            title="Angelica"
-            frameborder="0"
-            allowfullscreen
-            mozallowfullscreen="true"
-            webkitallowfullscreen="true"
-            allow="autoplay; fullscreen; xr-spatial-tracking"
-            width="100%"
-            height="650"
-            src="https://sketchfab.com/models/27f75fa94c384000bb6a79a3000f8e80/embed?autostart=1&ui_infos=0&ui_controls=1">
-            </iframe>
-            """,
-            height=700
-        )
-
-    with right:
-
-        st.metric(
-            "Level",
-            "12"
-        )
-
-        st.metric(
-            "XP",
-            "845"
-        )
-
-        st.metric(
-            "Focus",
-            "88%"
-        )
-
-        st.metric(
-            "Energy",
-            "91%"
-        )
-
-        st.metric(
-            "Discipline",
-            "84%"
-        )
-
-        st.progress(0.84)
-
-        st.success(
-            "Twin Status: High Growth"
-        )
+st.metric(
+    "Discipline",
+    f"{discipline}%"
+)
 
 # =========================
 # FUTURE SIMULATOR
@@ -259,9 +231,9 @@ elif page == "Future Simulator":
         future
     )
 
-    st.progress(
-        future / 100
-    )
+overall = (focus + energy + discipline) / 300
+
+st.progress(overall)
 
 # =========================
 # ACHIEVEMENTS
