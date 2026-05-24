@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+import streamlit.components.v1 as components
 with open("styles.css") as f:
     st.markdown(
         f"<style>{f.read()}</style>",
@@ -23,6 +24,7 @@ page = st.sidebar.radio(
     [
         "Home",
         "My Twin",
+        "3D Twin",
         "Future Simulator",
         "Achievements"
     ]
@@ -167,3 +169,25 @@ elif page == "Achievements":
     st.success("😴 Sleep Champion")
 
     st.success("🚀 Elite Twin")
+    elif page == "3D Twin":
+
+    st.header("Your Digital Twin")
+
+    components.html(
+        """
+        <iframe
+        title="Angelica"
+        frameborder="0"
+        allowfullscreen
+        mozallowfullscreen="true"
+        webkitallowfullscreen="true"
+        allow="autoplay; fullscreen; xr-spatial-tracking"
+        width="100%"
+        height="650"
+        src="https://sketchfab.com/models/27f75fa94c384000bb6a79a3000f8e80/embed?autostart=1&ui_infos=0&ui_controls=1">
+        </iframe>
+        """,
+        height=700
+    )
+
+    st.success("Twin Connected")
