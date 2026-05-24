@@ -7,110 +7,126 @@ st.set_page_config(
     layout="wide"
 )
 
-hero = Image.open("assets/hero.jpg")
+# -----------------------
+# SIDEBAR
+# -----------------------
 
-st.image(hero, use_container_width=True)
+st.sidebar.title("🧠 TwinAI")
 
-st.markdown("""
-# Meet Your Future Self
-
-TwinAI creates a digital version of you and predicts how your habits today shape your future.
-
-""")
-
-st.write("")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.metric("Focus", "88%")
-
-with col2:
-    st.metric("Energy", "91%")
-
-with col3:
-    st.metric("Discipline", "84%")
-
-st.divider()
-
-st.subheader("Create Your Twin")
-
-name = st.text_input("Name")
-
-age = st.slider(
-    "Age",
-    13,
-    30,
-    17
-)
-
-career = st.selectbox(
-    "Dream Career",
+page = st.sidebar.radio(
+    "Navigate",
     [
-        "Software Engineer",
-        "Doctor",
-        "Entrepreneur",
-        "AI Researcher",
-        "Designer",
-        "Other"
+        "Home",
+        "My Twin",
+        "Future Simulator",
+        "Achievements"
     ]
 )
 
-study = st.slider(
-    "Study Hours",
-    0,
-    12,
-    5
-)
+# -----------------------
+# HOME
+# -----------------------
 
-sleep = st.slider(
-    "Sleep Hours",
-    0,
-    12,
-    8
-)
+if page == "Home":
 
-exercise = st.slider(
-    "Exercise Hours",
-    0,
-    5,
-    1
-)
+    hero = Image.open("assets/hero.jpg")
 
-screen = st.slider(
-    "Screen Time",
-    0,
-    15,
-    5
-)
+    st.image(hero, use_container_width=True)
 
-if st.button("Generate My Twin"):
+    st.title("Meet Your Future Self")
 
-    score = (
-        study * 5
-        + sleep * 4
-        + exercise * 8
-        - screen
+    st.write(
+        "TwinAI creates a digital version of you and predicts future outcomes based on your habits."
     )
 
-    score = max(0, min(100, score))
+# -----------------------
+# MY TWIN
+# -----------------------
 
-    st.success("Twin Generated Successfully")
+elif page == "My Twin":
 
-    st.subheader(f"{name}'s Digital Twin")
+    st.header("Create Your Twin")
 
-    st.progress(score / 100)
+    name = st.text_input("Name")
+
+    age = st.slider("Age", 13, 30, 17)
+
+    study = st.slider("Study Hours", 0, 12, 5)
+
+    sleep = st.slider("Sleep Hours", 0, 12, 8)
+
+    exercise = st.slider("Exercise Hours", 0, 5, 1)
+
+    screen = st.slider("Screen Time", 0, 15, 5)
+
+    if st.button("Generate Twin"):
+
+        score = (
+            study * 5
+            + sleep * 4
+            + exercise * 8
+            - screen
+        )
+
+        score = max(0, min(100, score))
+
+        st.subheader(f"{name}'s Twin")
+
+        st.progress(score / 100)
+
+        st.metric(
+            "Twin Score",
+            f"{score}/100"
+        )
+
+# -----------------------
+# FUTURE SIMULATOR
+# -----------------------
+
+elif page == "Future Simulator":
+
+    st.header("Future Simulator")
+
+    current = st.slider(
+        "Current Performance",
+        0,
+        100,
+        75
+    )
+
+    improvement = st.slider(
+        "Future Improvement",
+        0,
+        50,
+        15
+    )
+
+    future = min(
+        100,
+        current + improvement
+    )
 
     st.metric(
-        "Twin Score",
-        f"{score}/100"
+        "Predicted Future Score",
+        future
     )
 
-    if score >= 80:
-        st.success("Elite Potential 🚀")
+    st.progress(
+        future / 100
+    )
 
-    elif score >= 60:
-        st.info("Strong Growth 📈")
+# -----------------------
+# ACHIEVEMENTS
+# -----------------------
 
-    else:
-        st.warning("Needs Improvement ⚠️")
+elif page == "Achievements":
+
+    st.header("Achievements")
+
+    st.success("🏆 Focus Master")
+
+    st.success("🔥 Study Beast")
+
+    st.success("😴 Sleep Champion")
+
+    st.success("🚀 Elite Twin")
