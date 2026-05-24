@@ -2,140 +2,120 @@ import streamlit as st
 from PIL import Image
 import streamlit.components.v1 as components
 
-# Load CSS
-with open("styles.css") as f:
-    st.markdown(
-        f"<style>{f.read()}</style>",
-        unsafe_allow_html=True
-    )
-
-# Page Config
+# -----------------------
+# PAGE CONFIG
+# -----------------------
 st.set_page_config(
     page_title="TwinAI 3D",
     page_icon="🧠",
     layout="wide"
 )
 
-# Sidebar
+# -----------------------
+# LOAD CSS (safe)
+# -----------------------
+try:
+    with open("styles.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+except:
+    pass
+
+# -----------------------
+# SIDEBAR NAV
+# -----------------------
 st.sidebar.title("🧠 TwinAI")
 
 page = st.sidebar.radio(
     "Navigate",
-    [
-        "Home",
-        "My Twin",
-        "3D Twin",
-        "Future Simulator",
-        "Achievements"
-    ]
+    ["Home", "My Twin", "3D Twin", "Future Simulator", "Achievements"]
 )
 
-# =========================
-# HOME
-# =========================
+# -----------------------
+# SESSION DEFAULTS
+# -----------------------
+if "study" not in st.session_state:
+    st.session_state.study = 5
+if "sleep" not in st.session_state:
+    st.session_state.sleep = 8
+if "exercise" not in st.session_state:
+    st.session_state.exercise = 1
+if "screen" not in st.session_state:
+    st.session_state.screen = 5
+if "name" not in st.session_state:
+    st.session_state.name = "User"
 
+# -----------------------
+# HOME
+# -----------------------
 if page == "Home":
 
     hero = Image.open("assets/hero.jpg")
 
-    st.image(
-        hero,
-        use_container_width=True
-    )
+    st.image(hero, use_container_width=True)
 
-    st.markdown(
-        """
-        <div class="hero-title">
-        Meet Your Future Self
-        </div>
-
-        <div class="hero-subtitle">
-        Build a realistic digital twin and explore how today's habits shape tomorrow's outcomes.
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.write("")
+    st.markdown("""
+    <div style='text-align:center; padding:20px'>
+        <h1 style='font-size:50px'>Meet Your Future Self</h1>
+        <p style='font-size:18px; color:gray'>
+        TwinAI simulates your digital future based on your daily habits.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     c1, c2, c3 = st.columns(3)
 
-    with c1:
-        st.metric("Active Twins", "12,548")
+    c1.metric("Active Twins", "12,548")
+    c2.metric("Predictions", "84,291")
+    c3.metric("Growth", "+18%")
 
-    with c2:
-        st.metric("Predictions Generated", "84,291")
-
-    with c3:
-        st.metric("Average Growth", "+18%")
-
-# =========================
+# -----------------------
 # MY TWIN
-# =========================
-
+# -----------------------
 elif page == "My Twin":
 
     st.header("Create Your Twin")
 
-    name = st.text_input("Name")
+    st.session_state.name = st.text_input("Name", st.session_state.name)
 
-    age = st.slider("Age", 13, 30, 17)
-
-    study = st.slider("Study Hours", 0, 12, 5)
-
-    sleep = st.slider("Sleep Hours", 0, 12, 8)
-
-    exercise = st.slider("Exercise Hours", 0, 5, 1)
-
-    screen = st.slider("Screen Time", 0, 15, 5)
-
-    # Save data for other pages
-    st.session_state["study"] = study
-    st.session_state["sleep"] = sleep
-    st.session_state["exercise"] = exercise
-    st.session_state["screen"] = screen
-    st.session_state["name"] = name
+    st.session_state.study = st.slider("Study Hours", 0, 12, st.session_state.study)
+    st.session_state.sleep = st.slider("Sleep Hours", 0, 12, st.session_state.sleep)
+    st.session_state.exercise = st.slider("Exercise Hours", 0, 5, st.session_state.exercise)
+    st.session_state.screen = st.slider("Screen Time", 0, 15, st.session_state.screen)
 
     if st.button("Generate Twin"):
 
         score = (
-            study * 5
-            + sleep * 4
-            + exercise * 8
-            - screen
+            st.session_state.study * 5 +
+            st.session_state.sleep * 4 +
+            st.session_state.exercise * 8 -
+            st.session_state.screen
         )
 
         score = max(0, min(100, score))
 
-        st.subheader(f"{name}'s Twin")
+        st.session_state.score = score
+
+        st.success(f"{st.session_state.name}'s Twin Generated")
 
         st.progress(score / 100)
 
-        st.metric(
-            "Twin Score",
-            f"{score}/100"
-        )
-
         if score >= 80:
-            st.success("Elite Potential 🚀")
-
+            st.info("Elite Potential 🚀")
         elif score >= 60:
             st.info("Strong Growth 📈")
-
         else:
             st.warning("Needs Improvement ⚠️")
 
-# =========================
+# -----------------------
 # 3D TWIN
-# =========================
-
+# -----------------------
 elif page == "3D Twin":
 
-    study = st.session_state.get("study", 5)
-    sleep = st.session_state.get("sleep", 8)
-    exercise = st.session_state.get("exercise", 1)
-    screen = st.session_state.get("screen", 5)
-    name = st.session_state.get("name", "Your")
+    study = st.session_state.study
+    sleep = st.session_state.sleep
+    exercise = st.session_state.exercise
+    screen = st.session_state.screen
+    name = st.session_state.name
 
     focus = max(0, min(100, study * 10 - screen * 2))
     energy = max(0, min(100, sleep * 12))
@@ -145,135 +125,75 @@ elif page == "3D Twin":
 
     st.title(f"🧠 {name}'s Digital Twin")
 
-    left, right = st.columns([2, 1])
+    col1, col2 = st.columns([2, 1])
 
-    with left:
-
+    with col1:
         components.html(
             """
             <iframe
-            title="Angelica"
-            frameborder="0"
-            allowfullscreen
-            mozallowfullscreen="true"
-            webkitallowfullscreen="true"
-            allow="autoplay; fullscreen; xr-spatial-tracking"
+            src="https://sketchfab.com/models/27f75fa94c384000bb6a79a3000f8e80/embed?autostart=1&ui_infos=0&ui_controls=1"
             width="100%"
-            height="650"
-            src="https://sketchfab.com/models/27f75fa94c384000bb6a79a3000f8e80/embed?autostart=1&ui_infos=0&ui_controls=1">
+            height="600"
+            frameborder="0">
             </iframe>
             """,
-            height=700
+            height=620
         )
 
-    with right:
-
-        st.metric("Level", "12")
-
-        st.metric("XP", "845")
-
-        st.metric(
-            "Focus",
-            f"{focus}%"
-        )
-
-        st.metric(
-            "Energy",
-            f"{energy}%"
-        )
-
-        st.metric(
-            "Discipline",
-            f"{discipline}%"
-        )
+    with col2:
+        st.metric("Focus", f"{focus}%")
+        st.metric("Energy", f"{energy}%")
+        st.metric("Discipline", f"{discipline}%")
 
         st.progress(overall)
 
-        if overall >= 0.8:
-            st.success("Twin Status: Elite Growth 🚀")
-
-        elif overall >= 0.6:
-            st.info("Twin Status: Strong Progress 📈")
-
+        if overall > 0.75:
+            st.success("Elite Twin 🚀")
+        elif overall > 0.5:
+            st.info("Developing Twin 📈")
         else:
-            st.warning("Twin Status: Needs Improvement ⚠️")
+            st.warning("Early Stage Twin 🌱")
 
-# =========================
+# -----------------------
 # FUTURE SIMULATOR
-# =========================
-
+# -----------------------
 elif page == "Future Simulator":
 
     st.header("Future Simulator")
 
-    current = st.slider(
-        "Current Performance",
-        0,
-        100,
-        75
-    )
+    current = st.slider("Current Performance", 0, 100, 70)
+    improvement = st.slider("Potential Growth", 0, 50, 10)
 
-    improvement = st.slider(
-        "Future Improvement",
-        0,
-        50,
-        15
-    )
+    future = min(100, current + improvement)
 
-    future = min(
-        100,
-        current + improvement
-    )
+    st.metric("Future Score", future)
+    st.progress(future / 100)
 
-    st.metric(
-        "Predicted Future Score",
-        future
-    )
+    st.divider()
 
-    st.progress(
-        future / 100
-    )
-study = st.session_state.get("study", 5)
-sleep = st.session_state.get("sleep", 8)
-exercise = st.session_state.get("exercise", 1)
-screen = st.session_state.get("screen", 5)
+    focus = max(0, min(100, st.session_state.study * 10 - st.session_state.screen * 2))
+    energy = max(0, min(100, st.session_state.sleep * 12))
+    discipline = max(0, min(100, st.session_state.study * 6 + st.session_state.exercise * 12))
 
-focus = max(0, min(100, study * 10 - screen * 2))
-energy = max(0, min(100, sleep * 12))
-discipline = max(0, min(100, study * 6 + exercise * 12))
+    if focus > 80 and discipline > 70:
+        career = "AI Researcher 🤖"
+    elif focus > 70:
+        career = "Software Engineer 💻"
+    elif energy > 80:
+        career = "Entrepreneur 🚀"
+    else:
+        career = "Explorer 🌱"
 
-st.divider()
+    st.success(f"Predicted Career: {career}")
 
-st.subheader("🔮 Career Prediction")
-
-if focus > 80 and discipline > 70:
-    career = "AI Researcher 🤖"
-
-elif focus > 70:
-    career = "Software Engineer 💻"
-
-elif energy > 80 and discipline > 60:
-    career = "Entrepreneur 🚀"
-
-elif discipline > 60:
-    career = "Project Leader 📈"
-
-else:
-    career = "Potential Untapped 🌱"
-
-st.success(f"Predicted Future Career: {career}")
-# =========================
+# -----------------------
 # ACHIEVEMENTS
-# =========================
-
+# -----------------------
 elif page == "Achievements":
 
     st.header("Achievements")
 
     st.success("🏆 Focus Master")
-
     st.success("🔥 Study Beast")
-
     st.success("😴 Sleep Champion")
-
     st.success("🚀 Elite Twin")
