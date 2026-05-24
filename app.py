@@ -36,13 +36,45 @@ if page == "Home":
 
     hero = Image.open("assets/hero.jpg")
 
-    st.image(hero, use_container_width=True)
-
-    st.title("Meet Your Future Self")
-
-    st.write(
-        "TwinAI creates a digital version of you and predicts future outcomes based on your habits."
+    st.image(
+        hero,
+        use_container_width=True
     )
+
+    st.markdown(
+        """
+        <div class="hero-title">
+        Meet Your Future Self
+        </div>
+
+        <div class="hero-subtitle">
+        Build a realistic digital twin and explore how today's habits shape tomorrow's outcomes.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.write("")
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+        st.metric(
+            "Active Twins",
+            "12,548"
+        )
+
+    with c2:
+        st.metric(
+            "Predictions Generated",
+            "84,291"
+        )
+
+    with c3:
+        st.metric(
+            "Average Growth",
+            "+18%"
+        )
 
 # -----------------------
 # MY TWIN
