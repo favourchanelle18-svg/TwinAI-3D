@@ -1,3 +1,30 @@
-body {
-    background-color: #0f172a;
+.main {
+    background: linear-gradient(
+        135deg,
+        #0f172a,
+        #111827,
+        #1e293b
+    );
+}
+
+.hero-title {
+    font-size: 70px;
+    font-weight: 800;
+    text-align: center;
+    color: white;
+}
+
+.hero-subtitle {
+    font-size: 22px;
+    text-align: center;
+    color: #cbd5e1;
+}
+
+.glass-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    margin-bottom: 20px;
 }
