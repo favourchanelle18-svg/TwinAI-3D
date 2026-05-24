@@ -233,7 +233,35 @@ elif page == "Future Simulator":
     st.progress(
         future / 100
     )
+study = st.session_state.get("study", 5)
+sleep = st.session_state.get("sleep", 8)
+exercise = st.session_state.get("exercise", 1)
+screen = st.session_state.get("screen", 5)
 
+focus = max(0, min(100, study * 10 - screen * 2))
+energy = max(0, min(100, sleep * 12))
+discipline = max(0, min(100, study * 6 + exercise * 12))
+
+st.divider()
+
+st.subheader("🔮 Career Prediction")
+
+if focus > 80 and discipline > 70:
+    career = "AI Researcher 🤖"
+
+elif focus > 70:
+    career = "Software Engineer 💻"
+
+elif energy > 80 and discipline > 60:
+    career = "Entrepreneur 🚀"
+
+elif discipline > 60:
+    career = "Project Leader 📈"
+
+else:
+    career = "Potential Untapped 🌱"
+
+st.success(f"Predicted Future Career: {career}")
 # =========================
 # ACHIEVEMENTS
 # =========================
