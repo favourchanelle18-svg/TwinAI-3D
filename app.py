@@ -5,8 +5,6 @@ st.set_page_config(
     layout="wide"
 )
 
-st.image("assets/hero.jpg", use_container_width=True)
-
 st.title("TwinAI 3D")
 
 st.write("Meet Your Future Self")
